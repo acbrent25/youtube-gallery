@@ -28,7 +28,7 @@ function yg_list_videos($atts, $content = null){
         'post_type'     => 'video',
         'post_status'   => 'publish',
         'orderby'       => 'created',
-        'order'         => 'ASC',
+        'order'         => 'DESC',
         'post_per_page' => $atts['count'],
         'tax_query'     => $terms,
     );
@@ -55,7 +55,12 @@ function yg_list_videos($atts, $content = null){
 
             $output .= '<div class="yg-video">';
             $output .= '<h4>'.get_the_title().'</h4>';
-            $output .= '<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class="embed-container"><iframe src="https://www.youtube.com/embed/'.$video_id.'" frameborder="0" allowfullscreen></iframe></div>';
+            if(get_option('yg_setting_disable_fullscreen')){
+                $output .= '<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class="embed-container"><iframe src="https://www.youtube.com/embed/'.$video_id.'" frameborder="0"></iframe></div>';
+            } else {
+                $output .= '<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class="embed-container"><iframe src="https://www.youtube.com/embed/'.$video_id.'" frameborder="0" allowfullscreen></iframe></div>';
+            }
+            
             $output .= '<div>'.$details.'</div>';
             $output .= '</div><br><hr>';
         }
